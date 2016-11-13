@@ -1522,6 +1522,15 @@ namespace ts {
                 /*original*/ node);
         }
 
+        function isFunctionExpressionModifier(node: Modifier): boolean {
+            switch (node.kind) {
+                case SyntaxKind.AsyncKeyword:
+                    return true;
+                default:
+                    return false;
+            }
+        }
+
         /**
          * Transforms a function-like node into a FunctionExpression.
          *
@@ -1537,7 +1546,7 @@ namespace ts {
 
             const expression = setOriginalNode(
                 createFunctionExpression(
-                    /*modifiers*/ undefined,
+                    filter(node.modifiers, isFunctionExpressionModifier),
                     node.asteriskToken,
                     name,
                     /*typeParameters*/ undefined,
